@@ -28,11 +28,11 @@ public:
         return true;
     }
 
-    bool post(cpr::Payload &pl) {
+    bool post() {
         if (this->url.length() == 0) return false;
 
         std::string tmp_url = this->url+"/post";
-        r = cpr::Post(cpr::Url(tmp_url), cpr::Payload(pl));
+        r = cpr::Post(cpr::Url(tmp_url));
 
         if (r.status_code != 200) {
             this->getErrors();
@@ -58,11 +58,11 @@ public:
         return true;
     }
 
-    bool del(cpr::Payload &pl) {
+    bool del() {
         if (this->url.length() == 0) return false;
 
         std::string tmp_url = this->url+"/delete";
-        r = cpr::Delete(cpr::Url(tmp_url), cpr::Payload(pl));
+        r = cpr::Delete(cpr::Url(tmp_url));
 
         if (r.status_code != 200) {
             this->getErrors();
@@ -98,16 +98,10 @@ int main() {
         std::getline(std::cin, request);
 
         if (request == "ext" || request == "EXT") break;
-        if (request == "get" || request == "GET") r->get();
-        if (request == "post" || request == "POST") {
-            r->post(pl);
-        }
-        if (request == "put" || request == "PUT") {
-            r->put(pl);
-        }
-        if (request == "delete" || request == "PUT") {
-            r->del(pl);
-        }
+        else if (request == "get" || request == "GET") r->get();
+        else if (request == "post" || request == "POST") r->post();
+        else if (request == "put" || request == "PUT") r->put(pl);
+        else if (request == "delete" || request == "PUT") r->del();
 
         std::cin.clear();
     }
